@@ -2,6 +2,8 @@ from skyfield.api import N, Star, W, wgs84, load
 from skyfield.almanac import find_discrete, risings_and_settings
 from pytz import timezone
 
+# Initial commit
+
 ts = load.timescale()
 t0 = ts.utc(2019, 1, 19)
 t1 = ts.utc(2019, 1, 21)
