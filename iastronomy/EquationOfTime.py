@@ -1,19 +1,23 @@
 # Compute equation of time based on the latitude and longitude of the place.
 # This is approximate value. Formula is taken from the following source.
 from skyfield import api
-from skyfield.api import N, E, wgs84, load
-from datetime import datetime, timedelta
+import datetime
+from datetime import timedelta
 import numpy as np
+
 
 
 # Longitude of the city
 
 cityLon = 74
 
+# No need to use skyfield. we can generate date from python datetime as well.
+
+
 ts = api.load.timescale()
 
 
-curDate = ts.utc(2024, 1, 1) 
+curDate = datetime.datetime(2024,1,1)
 
 # Start from 1st Jan and iterate for 366 days
 
@@ -54,6 +58,6 @@ for curDay in range(1, 366, 1):
     
     curDate = curDate + timedelta(days=1)
     
-    print(curDay , curDate.utc_datetime() , eot,sep=",")
+    print(curDay , curDate , eot,sep=",")
     
     
