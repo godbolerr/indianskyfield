@@ -13,7 +13,6 @@ from skyfield.api import N, E, wgs84, load
 from skyfield.framelib import ecliptic_frame
 from skyfield.toposlib import Topos
 from skyfield.trigonometry import position_angle_of
-from wx.lib.ogl.composit import _objectStartY
 import sqlite3
 import datetime as dt
 import numpy as np
@@ -31,8 +30,8 @@ sun, moon, earth = eph['sun'], eph['moon'], eph['earth']
 
 startDay = 1
 startMonth = 1
-startYear = 1000
-totalTithi = 10000
+startYear = 2025
+totalTithi = 1000
 
 
 
@@ -57,7 +56,7 @@ conn = sqlite3.connect('puneTithi.db')
 pune = wgs84.latlon(lat * N, long * E)
 puneObserver = eph['Earth'] + pune
 
-csvFile = open(f"Tithi{ startDay }_{startMonth}_{startYear}_{totalTithi}_{obsLocation}_{lat}_{long}.csv", "a") 
+#csvFile = open(f"Tithi{ startDay }_{startMonth}_{startYear}_{totalTithi}_{obsLocation}_{lat}_{long}.csv", "a") 
 
 from_dms = lambda degs, mins, secs: degs + mins / 60 + secs / 3600
 
@@ -159,7 +158,7 @@ def insertRow(sqliteConnection,
             tithiDurationString,
             kslat, kslon, kmlat, kmlon):
 
-    print("Inserting ", seq , year, month, day, ksunriseLocal)
+    print("Inserting ", seq , year, month, day, ksunriseLocal,ktithiSeq,ktithiEndLocal)
     ksld,kslm,ksls = getDms(kslat)
     ksod,ksom,ksos = getDms(kslon)    
     kmld,kmlm,kmls = getDms(kmlat)   
@@ -467,7 +466,7 @@ for row in range(1,totalTithi,1) :
         
         seq = seq+1        
         
-        
+    print("Seq",seq, " of " , totalTithi)
 
     lonDiffRef = lonDiff
             
