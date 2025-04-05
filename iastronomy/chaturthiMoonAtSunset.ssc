@@ -1,0 +1,41 @@
+include("sunDatesOneYear.inc");
+include("common_functions.inc");
+
+
+latitude = 0;
+longitude = 73;
+
+id = LabelMgr.deleteAllLabels();
+
+for(count=0;count<8;count++)
+{
+	
+	latLabel = LabelMgr.labelScreen("Latitude : " + latitude , 100 , 200, false, 25, "#FF0000");
+	LabelMgr.setLabelShow(latLabel, true);
+	core.wait(0.07);
+
+	longLabel = LabelMgr.labelScreen("Longitude : " + longitude , 100 , 230, false, 25, "#FF0000");
+	LabelMgr.setLabelShow(longLabel, true);
+	core.wait(0.07);
+
+
+	core.setObserverLocation(73, latitude,1,"Custom Location ","Earth");
+	core.wait(1);
+
+	for(i=0;i<sunSetDates.length;i++)
+	{
+		core.setDate(sunSetDates[i],"local");
+
+		core.wait(1);
+	}
+	
+	latitude = latitude + 10;
+
+	id = LabelMgr.deleteAllLabels();
+
+
+
+
+
+}
+
