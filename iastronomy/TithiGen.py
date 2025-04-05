@@ -375,9 +375,11 @@ if (lonDiffRef == 360 ) :
 tStartTimeStamp = tithiLocal.timestamp()
 
 
-
+counter=0
 for row in range(1,totalTithi,1) :
     seq = seq+1
+    counter = counter+1
+    
     sunrise = findSunRise(currentDate, puneObserver, istZone)
 
     sunriseLocal = sunrise.astimezone(istZone)
@@ -466,7 +468,7 @@ for row in range(1,totalTithi,1) :
         
         seq = seq+1        
         
-    print("Seq",seq, " of " , totalTithi)
+    print("Counter ",counter, " of " , totalTithi)
 
     lonDiffRef = lonDiff
             
