@@ -25,7 +25,7 @@ conn = sqlite3.connect('puneTithi.db')
 
 cur = conn.cursor()
 
-cur.execute("select tyear,tmonth,tday,thour,tminute,tsecond from tithi where tithiId = 4 and paksha = 'S'")
+cur.execute("select tyear,tmonth,tday,thour,tminute,tsecond from tithi where tithiId = 4 and paksha = 'S' and month = 9 ")
 
 results = cur.fetchall()  
   

@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('puneTithi.db')
+conn = sqlite3.connect('puneTithi2000.db')
 
 print("Opened database successfully")
 
