@@ -1,0 +1,56 @@
+include("common_functions.inc");
+
+LabelMgr.deleteAllLabels();
+
+var longitudes = new Array(0,15,30,45,60,75,90,1005,120,135,150);
+
+ids = blockText(Array("Crescent Moon ",
+                      "as seen from different latitudes.",
+                      "for same latitude 18 N"));
+
+core.wait(5);
+
+LabelMgr.deleteAllLabels();
+
+core.setDate("2025-09-26T18:27:20","local");
+
+core.wait(1);
+
+dateLabel = LabelMgr.labelScreen("26 Sep 2025 18:27:00"  , 100 , 50 , false, 30, "#FFFFFF");
+LabelMgr.setLabelShow(dateLabel, true);
+core.wait(1);
+longLabel = LabelMgr.labelScreen("Latitude : 18 N "  , 100 , 100, false, 25, "#FF0000");
+LabelMgr.setLabelShow(longLabel, true);
+core.wait(1);
+ 
+core.selectObjectByName("Moon", true);
+core.wait(4);
+
+function viewFromLongitude(longValue)
+{
+	
+	core.setObserverLocation(
+		longValue, //  All along Pune Longitude
+		18, 
+		0,                       
+		1,                      
+	         "E",                    
+	        "Earth"                  
+	 );
+	core.wait(0.5);
+	latLabel = LabelMgr.labelScreen("Longitude : " + longValue , 100 , 150, false, 25, "#FFBB00");
+	LabelMgr.setLabelShow(latLabel, true);
+	core.wait(2);
+	LabelMgr.deleteLabel(latLabel);
+}
+
+for (i=0; i<longitudes.length	; i++)
+{
+	viewFromLongitude(longitudes[i]);
+}
+
+resetStellarium();
+
+
+
+
