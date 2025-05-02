@@ -54,7 +54,7 @@ longitude = 73
 latValue = loc_18_73.latitude.degrees
 longValue = loc_18_73.longitude.degrees
 
-header = "latitude,longitude,starName,Hip code, mode, IST time, status, ra,dec,alt,az"
+header = "seq,latitude,longitude,starName,Hip code, mode, IST time, status, ra,dec,alt,az"
 
 for i in range(len(stars)):
 
@@ -79,16 +79,20 @@ for i in range(len(stars)):
     
     print(header,file=dataFile)
     
+    
+    
     for curYear in range(1, 365 , 1):
        
         t1 = t0 + datetime.timedelta(days=1)
+        
+        
         
         raStar,decStar,distance = observer.at(t1).observe(star).apparent().radec()
         altStar,azStar,distance = observer.at(t1).observe(star).apparent().altaz()
             
         observerTime = t1.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ")
         
-        print('{}, {} ,{}, HIP{}, {}, {}, {}, {:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(latValue,longValue,starName,starHip,"Instance",t1.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ"), "T",raStar.degrees,decStar.degrees,altStar.degrees,azStar.degrees),file=dataFile)
+        print('0,{}, {} ,{}, HIP{}, {}, {}, {}, {:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(latValue,longValue,starName,starHip,"Instance",t1.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ"), "T",raStar.degrees,decStar.degrees,altStar.degrees,azStar.degrees),file=dataFile)
     
         t0=t1
         
@@ -104,13 +108,10 @@ for i in range(len(stars)):
     
     # Find these values for different latitudes and same longitudes
     
-    count = 0
     
     for l in range(len(latitudes)):
         
         latValue = latitudes[l]
-        
-        count = count + 1
     
         location  = wgs84.latlon(latValue * N, 73.8567 * E)
     
@@ -130,9 +131,10 @@ for i in range(len(stars)):
         altStar,azStar,distance = observer.at(t).observe(star).apparent().altaz()
         
         # Find values at rise
-         
+        count = 0
         for ti, yi, rai,deci,alti,azi in zip(t, y, raStar.degrees, decStar.degrees,altStar.degrees,azStar.degrees):
-            print('{} {},{},{}, HIP{}, {}, {}, {:5}, {:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(count, latValue,longValue,starName,starHip,"Rise",ti.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ"), str(yi), rai,deci,alti,azi),file=dataFile)
+            count = count + 1
+            print('{}, {},{},{}, HIP{}, {}, {}, {:5}, {:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(count, latValue,longValue,starName,starHip,"Rise",ti.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ"), str(yi), rai,deci,alti,azi),file=dataFile)
         
         # Find values at set
         
@@ -140,7 +142,9 @@ for i in range(len(stars)):
         raStar,decStar,distance = observer.at(t).observe(star).apparent().radec()
         altStar,azStar,distance = observer.at(t).observe(star).apparent().altaz()
         
+        count = 0
         for ti, yi, rai,deci,alti,azi in zip(t, y, raStar.degrees, decStar.degrees,altStar.degrees,azStar.degrees):
+            count = count + 1
             print('{},{},{},{}, HIP{}, {}, {}, {:5}, {:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(count,latValue,longValue,starName,starHip,"Set",ti.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ"), str(yi), rai,deci,alti,azi),file=dataFile)
         
         # Find values at transit
@@ -149,7 +153,9 @@ for i in range(len(stars)):
         raStar,decStar,distance = observer.at(t).observe(star).apparent().radec()
         altStar,azStar,distance = observer.at(t).observe(star).apparent().altaz()
         
+        count = 0
         for ti, rai,deci,alti,azi in zip(t, raStar.degrees, decStar.degrees,altStar.degrees,azStar.degrees):
+            count = count + 1
             print('{},{},{},{}, HIP{}, {}, {}, {}, {:.4f}, {:.4f}, {:.4f}, {:.4f}'.format(count,latValue,longValue,starName,starHip,"Transit",ti.astimezone(ist).strftime("%Y-%m-%dT%H:%M:%SZ"),"T", rai,deci,alti,azi),file=dataFile)
 
 
