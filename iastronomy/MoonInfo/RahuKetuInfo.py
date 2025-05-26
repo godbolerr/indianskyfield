@@ -62,13 +62,24 @@ for curYear in range(2000, 2002, 1):
     
     t, y = almanac.find_discrete(t0, t1, almanac.moon_phases(eph))
     
-    t1, y1 = almanac.find_discrete(t0, t1, almanac.moon_nodes(eph))
-
+    # compute only for new moons
+    
     for (eventTime , phases) in zip(t,y) :
-            if (phases == 0 or phases == 2 ) :
+            if (phases == 0 ) :
                 year, month, day, hour, minute, second = eventTime.tt_calendar()
                 dayOfWeek = datetime.datetime(year, month, day).weekday()
                
                 mlat, mlon, distance = earth.at(eventTime).observe(moon).frame_latlon(ecliptic_frame)
                 slat, slon, distance = earth.at(eventTime).observe(sun).frame_latlon(ecliptic_frame)                                                             
-                print(phases,year, month, day, mlon.degrees,  slon.degrees)
+                print(eventTime.utc_iso(), mlon.degrees,  slon.degrees,sep=",")
+
+    
+    # Find Longitude of the Rahu from the lunar node data
+    
+    t, y = almanac.find_discrete(t0, t1, almanac.moon_nodes(eph))
+    
+    for (nodeTime , nodeValue) in zip(t,y) :
+        if ( nodeValue == 1 ):
+            mlat, mlon, distance = earth.at(nodeTime).observe(moon).frame_latlon(ecliptic_frame)
+            #print(nodeTime.utc_iso(),nodeValue,mlon.degrees,sep=",")
+
